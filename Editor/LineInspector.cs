@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace FrameworksXD.SplinesXD.Editor
+namespace FrameworksXD.SplinesXD
 {
     [CustomEditor(typeof(Line))]
     public class LineInspector : UnityEditor.Editor

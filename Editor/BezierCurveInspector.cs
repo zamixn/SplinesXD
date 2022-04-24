@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace FrameworksXD.SplinesXD.Editor
+namespace FrameworksXD.SplinesXD
 {
 	[CustomEditor(typeof(BezierCurve))]
 	public class BezierCurveInspector : UnityEditor.Editor
