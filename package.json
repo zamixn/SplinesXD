@@ -2,9 +2,7 @@
   "name": "com.frameworksxd.splinesxd",
   "version": "1.0.0",
   "displayName": "Splines XD",
-  "description": "Editable Bezier splines :shrug:
-  Implementation of https://catlikecoding.com/unity/tutorials/curves-and-splines/
-  With tweaks c:",
+  "description": "Editable Bezier splines :shrug:\nImplementation of https://catlikecoding.com/unity/tutorials/curves-and-splines/\n*With tweaks :)*",
   "unity": "2019.1",
   "unityRelease": "0b5",
   "documentationUrl": "https://github.com/zamixn/SplinesXD",
@@ -12,7 +10,7 @@
   "licensesUrl": "https://creativecommons.org/licenses/by/4.0/legalcode",
   "keywords": [
     "Bezier",
-	"Splines"
+    "Splines"
   ],
   "author": {
     "name": "\u017dygimantas Kadi\u0161a",
