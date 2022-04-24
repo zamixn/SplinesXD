@@ -16,5 +16,6 @@
     "email": "zygimantas.kadisa@gmail.com",
     "url": "https://github.com/zamixn/SplinesXD"
   },
-  "type": "library"
+  "type": "library",
+  "description": "Editable Bezier splines :shrug:\nImplementation of https://catlikecoding.com/unity/tutorials/curves-and-splines/\n*With tweaks :)*"
 }
