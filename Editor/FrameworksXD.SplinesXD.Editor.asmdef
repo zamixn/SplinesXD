@@ -1,13 +1,13 @@
 {
-    "name": "SplinesXD",
+    "name": "FrameworksXD.SplinesXD.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:5280df7bcdee3ec419682e36c3030719"
     ],
-    "includePlatforms": [],
-    "excludePlatforms": [
+    "includePlatforms": [
         "Editor"
     ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
