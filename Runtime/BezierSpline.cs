@@ -163,6 +163,44 @@ namespace FrameworksXD.SplinesXD
             }
         }
 
+        public void RemoveCurve(int selectedPointIndex)
+        {
+            Vector3[] newPoints = new Vector3[points.Length - 3];
+            BezierControlPointMode[] newModes = new BezierControlPointMode[modes.Length - 1];
+
+            if (selectedPointIndex <= 1)
+            {
+                Array.Copy(points, 3, newPoints, 0, newPoints.Length);
+                Array.Copy(modes, 1, newModes, 0, newModes.Length);
+
+            }
+            else if (selectedPointIndex >= points.Length - 2)
+            {
+                Array.Copy(points, 0, newPoints, 0, points.Length - 3);
+                Array.Copy(modes, 0, newModes, 0, modes.Length - 1);
+            }
+            else
+            {
+                for (int i = 0, j = 0; i < points.Length; i++)
+                {
+                    if ((i + 1) / 3 == (selectedPointIndex + 1) / 3)
+                        continue;
+                    newPoints[j++] = points[i];
+                }
+
+                int modeIndex = (selectedPointIndex + 1) / 3;
+                for (int i = 0, j = 0; i < modes.Length; i++)
+                {
+                    if (i == modeIndex)
+                        continue;
+                    newModes[j++] = modes[i];
+                }
+            }
+
+            points = newPoints;
+            modes = newModes;
+        }
+
         public int CurveCount
         {
             get

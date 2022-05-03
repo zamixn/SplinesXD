@@ -39,6 +39,7 @@ namespace FrameworksXD.SplinesXD
 			{
 				DrawSelectedPointInspector();
 			}
+			GUILayout.Space(10);
 			if (GUILayout.Button("Add Curve"))
 			{
 				Undo.RecordObject(spline, "Add Curve");
@@ -130,6 +131,12 @@ namespace FrameworksXD.SplinesXD
 			{
 				Undo.RecordObject(spline, "Change Point Mode");
 				spline.SetControlPointMode(selectedIndex, mode);
+				EditorUtility.SetDirty(spline);
+			}
+			if (GUILayout.Button("Remove Selected Curve"))
+			{
+				Undo.RecordObject(spline, "Remove Selected Curve");
+				spline.RemoveCurve(selectedIndex);
 				EditorUtility.SetDirty(spline);
 			}
 		}
