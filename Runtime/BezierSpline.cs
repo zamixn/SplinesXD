@@ -82,6 +82,39 @@ namespace FrameworksXD.SplinesXD
             EnforceMode(index);
         }
 
+        public int GetPointsOnSplineCount()
+        {
+            return modes.Length;
+        }
+
+        public Vector3 GetSplinePoint(int index)
+        {
+            if (index == 0)
+                return points[0];
+            if (index == GetPointsOnSplineCount() - 1)
+                return points[points.Length - 1];
+
+            int pIndex = 3 * index;
+            return points[pIndex];
+        }
+
+        public void SetSplinePoint(int index, Vector3 point)
+        {
+            if (index == 0)
+            {
+                SetControlPoint(0, point);
+                return;
+            }
+            if (index == GetPointsOnSplineCount() - 1)
+            {
+                SetControlPoint(points.Length - 1, point);
+                return;
+            }
+
+            int pIndex = 3 * index;
+            SetControlPoint(pIndex, point);
+        }
+
         public void Reset()
         {
             points = new Vector3[] {
