@@ -11,6 +11,9 @@ namespace FrameworksXD.SplinesXD
         [SerializeField] private BezierControlPointMode[] modes;
         [SerializeField] private bool loop;
 
+        private bool IsCached;
+        private Bounds CachedBoundingBox;
+
         public bool Loop
         {
             get
@@ -310,6 +313,81 @@ namespace FrameworksXD.SplinesXD
                 enforcedTangent = enforcedTangent.normalized * Vector3.Distance(middle, points[enforcedIndex]);
             }
             points[enforcedIndex] = middle + enforcedTangent;
+        }
+
+        private void TryCacheRuntimeVariables()
+        {
+#if UNITY_EDITOR
+            if(!Application.isPlaying || !IsCached)
+#else
+            if (!IsCached)
+#endif
+            CacheRuntimeVariables();
+        }
+        private void CacheRuntimeVariables()
+        {
+            CachedBoundingBox = CalculateBoundingBox();
+            IsCached = true;
+        }
+
+        private Bounds CalculateBoundingBox()
+        {
+            var bounds = new Bounds(transform.position + points[0], Vector3.one * 0.1f);
+            int steps = 10 * CurveCount;
+            for (int i = 1; i <= steps; i++)
+            {
+                var point = GetPoint(i / (float)steps);
+                bounds.Encapsulate(point);
+            }
+            return bounds;
+        }
+
+        public Bounds GetBoundingBox()
+        {
+            TryCacheRuntimeVariables();
+            return CachedBoundingBox;
+        }
+
+        public Vector3 GetNearestPointOnSpline(Vector3 point)
+        {
+            float nearestT = 0;
+            float distToNearestT = Vector3.Distance(point, GetPoint(nearestT));
+            float minT = 0f;
+            float maxT = 1f;
+            float newMinT = minT;
+            float newMaxT = maxT;
+            for (float stepSize = 0.1f; stepSize > 0.001f; stepSize /= 8f) 
+            {
+                float halfStepSize = stepSize / 2f;
+                for (float t = minT; t <= maxT; t += stepSize)
+                {
+                    var dist = Vector3.Distance(point, GetPoint(t));
+                    if (dist < distToNearestT)
+                    {
+                        distToNearestT = dist;
+                        nearestT = t;
+                        newMinT = t - halfStepSize;
+                        newMaxT = t + halfStepSize;
+                    }
+                }
+                minT = newMinT;
+                maxT = newMaxT;
+            }
+            return GetPoint(nearestT);
+        }
+
+        /// <summary>
+        /// Only works for convex splines
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public bool IsPointInsideSpline(Vector3 point)
+        {
+            var bounds = GetBoundingBox();
+            var nearestOnSpline = GetNearestPointOnSpline(point);
+
+            Vector3 boundsCenter = bounds.center;
+            return Vector3.Distance(point, boundsCenter) < Vector3.Distance(nearestOnSpline, boundsCenter);
         }
     }
 }
