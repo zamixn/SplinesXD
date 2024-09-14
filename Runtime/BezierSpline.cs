@@ -39,9 +39,31 @@ namespace FrameworksXD.SplinesXD
             }
         }
 
+        public int CurveCount
+        {
+            get
+            {
+                return (points.Length - 1) / 3;
+            }
+        }
+
         public Vector3 GetControlPoint(int index)
         {
             return points[index];
+        }
+
+        public Vector3 GetCurveCenter(int curveIndex, out float radius)
+        {
+            float curveCount = CurveCount;
+            float stepPerCurve = 1f / curveCount;
+            float t = (float)curveIndex / curveCount;
+
+            var start = GetPoint(t);
+            var end = GetPoint(t + stepPerCurve);
+
+            var center = GetPoint(t + stepPerCurve / 2f);
+            radius = Mathf.Max(Vector3.Distance(center, start), Vector3.Distance(center, end));
+            return center;
         }
 
         public void SetControlPoint(int index, Vector3 point)
@@ -237,14 +259,6 @@ namespace FrameworksXD.SplinesXD
             modes = newModes;
         }
 
-        public int CurveCount
-        {
-            get
-            {
-                return (points.Length - 1) / 3;
-            }
-        }
-
         public BezierControlPointMode GetControlPointMode(int index)
         {
             return modes[(index + 1) / 3];
@@ -356,7 +370,7 @@ namespace FrameworksXD.SplinesXD
             float maxT = 1f;
             float newMinT = minT;
             float newMaxT = maxT;
-            for (float stepSize = 0.1f; stepSize > 0.001f; stepSize /= 8f) 
+            for (float stepSize = 0.5f; stepSize > 0.001f; stepSize /= 8f)
             {
                 float halfStepSize = stepSize / 2f;
                 for (float t = minT; t <= maxT; t += stepSize)
@@ -373,6 +387,7 @@ namespace FrameworksXD.SplinesXD
                 minT = newMinT;
                 maxT = newMaxT;
             }
+
             return GetPoint(nearestT);
         }
 
